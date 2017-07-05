@@ -1,12 +1,12 @@
-#Basic low-level WebGL framework.
+# Basic low-level WebGL framework.
 
-#Used Libraries
+## Used Libraries
 
 * RequireJS, Released under the  MIT license https://github.com/requirejs/requirejs/blob/master/LICENSE
 * gl-matrix, a high performance matrix and vector operations by Brandon Jones and Colin MacKenzie IV
 * WebGL initialization code is based on http://learningwebgl.com/ tutorials
 
-#License
+## License
 
 **The MIT License**
 
