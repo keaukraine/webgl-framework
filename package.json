@@ -1,0 +1,24 @@
+{
+  "name": "webgl-framework",
+  "version": "0.1.0",
+  "license": "MIT",
+  "description": "Basic low-level WebGL framework",
+  "author": "Oleksandr Popov (github.com/keaukraine/)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/keaukraine/webgl-framework.git"
+  },
+  "dependencies": {
+  },
+  "keywords": [
+    "webgl",
+    "framework"
+  ],
+  "bugs": {
+    "url": "https://github.com/keaukraine/webgl-framework/issues"
+  },
+  "homepage": "https://github.com/keaukraine/",
+  "devDependencies": {},
+  "scripts": {
+  }
+}
