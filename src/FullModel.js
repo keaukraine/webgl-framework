@@ -22,29 +22,33 @@ define(['./BinaryDataLoader'], function(BinaryDataLoader) {
         load: function(url, callback) {
             var root = this;
 
-            function loadBuffer(buffer, target, arrayBuffer) {
-                var byteArray = new Uint8Array(arrayBuffer, 0, arrayBuffer.byteLength);
-                gl.bindBuffer(target, buffer);
-                gl.bufferData(target, byteArray, gl.STATIC_DRAW);
-            }
-
-            BinaryDataLoader.load(url + '-indices.bin',
-                function(data) {
-                    root.bufferIndices = gl.createBuffer();
-                    console.log('Loaded ' + url + '-indices.bin: ' + data.byteLength + ' bytes');
-                    loadBuffer(root.bufferIndices, gl.ELEMENT_ARRAY_BUFFER, data);
-                    root.numIndices = data.byteLength / 2 / 3;
-                    root.bufferIndices && root.bufferStrides && callback();
+            return new Promise((resolve, reject) => {
+                const loadBuffer = (buffer, target, arrayBuffer) => {
+                    var byteArray = new Uint8Array(arrayBuffer, 0, arrayBuffer.byteLength);
+                    gl.bindBuffer(target, buffer);
+                    gl.bufferData(target, byteArray, gl.STATIC_DRAW);
                 }
-            );
-            BinaryDataLoader.load(url + '-strides.bin',
-                function(data) {
-                    root.bufferStrides = gl.createBuffer();
-                    console.log('Loaded ' + url + '-strides.bin: ' + data.byteLength + ' bytes');
-                    loadBuffer(root.bufferStrides, gl.ARRAY_BUFFER, data);
-                    root.bufferIndices && root.bufferStrides && callback();
-                }
-            );
+    
+                BinaryDataLoader.load(url + '-indices.bin',
+                    data => {
+                        root.bufferIndices = gl.createBuffer();
+                        console.log('Loaded ' + url + '-indices.bin: ' + data.byteLength + ' bytes');
+                        loadBuffer(root.bufferIndices, gl.ELEMENT_ARRAY_BUFFER, data);
+                        root.numIndices = data.byteLength / 2 / 3;
+                        root.bufferIndices && root.bufferStrides && callback();
+                        root.bufferIndices && root.bufferStrides && resolve();
+                    }
+                );
+                BinaryDataLoader.load(url + '-strides.bin',
+                    data => {
+                        root.bufferStrides = gl.createBuffer();
+                        console.log('Loaded ' + url + '-strides.bin: ' + data.byteLength + ' bytes');
+                        loadBuffer(root.bufferStrides, gl.ARRAY_BUFFER, data);
+                        root.bufferIndices && root.bufferStrides && callback();
+                        root.bufferIndices && root.bufferStrides && resolve();
+                    }
+                );    
+            });
         },
 
         /**
