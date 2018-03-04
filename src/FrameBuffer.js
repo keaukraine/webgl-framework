@@ -38,14 +38,14 @@ define(() => {
                     gl.bindRenderbuffer(gl.RENDERBUFFER, this.depthbufferHandle);
                     this.checkGlError("FB - glBindRenderbuffer");
                     gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, this.width, this.height);
-                    checkGlError("FB - glRenderbufferStorage");
+                    this.checkGlError("FB - glRenderbufferStorage");
                     gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, this.depthbufferHandle);
-                    checkGlError("FB - glFramebufferRenderbuffer");
+                    this.checkGlError("FB - glFramebufferRenderbuffer");
                 } else {
                     gl.bindTexture(gl.TEXTURE_2D, this.depthTextureHandle);
                     gl.bindFramebuffer(gl.FRAMEBUFFER, this.framebufferHandle);
                     gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.TEXTURE_2D, this.depthTextureHandle, 0);
-                    checkGlError("FB depth");
+                    this.checkGlError("FB depth");
                 }
 
                 const result = gl.checkFramebufferStatus(gl.FRAMEBUFFER);
@@ -53,16 +53,16 @@ define(() => {
                     console.error(`Error creating framebufer: ${result}`);
                 }
 
-                gl.bindRenderbuffer(gl.RENDERBUFFER, 0);
-                gl.bindTexture(gl.TEXTURE_2D, 0);
-                gl.bindFramebuffer(gl.FRAMEBUFFER, 0);
+                gl.bindRenderbuffer(gl.RENDERBUFFER, null);
+                // gl.bindTexture(gl.TEXTURE_2D, 0);
+                gl.bindFramebuffer(gl.FRAMEBUFFER, null);
             }
         }
 
         checkGlError(op) {
             let error;
 
-            while ((error = GLES20.glGetError()) !== gl.NO_ERROR) {
+            while ((error = gl.getError()) !== gl.NO_ERROR) {
                 console.error(`${op}: glError ${error}`);
             }
         }

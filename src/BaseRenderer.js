@@ -208,5 +208,13 @@ define([
             }
         }
 
+        BaseRenderer.prototype.checkGlError = function(op) {
+            let error;
+
+            while ((error = gl.getError()) !== gl.NO_ERROR) {
+                console.error(`${op}: glError ${error}`);
+            }
+        }
+
         return BaseRenderer;
     });
