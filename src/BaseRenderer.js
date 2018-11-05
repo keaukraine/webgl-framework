@@ -142,11 +142,11 @@ define([
             var gl = null;
 
             try {
-                gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+                gl = canvas.getContext('webgl', { alpha: false }) || canvas.getContext('experimental-webgl', { alpha: false });
                 gl.viewportWidth = canvas.width;
                 gl.viewportHeight = canvas.height;
                 this.isETC1Supported = !!gl.getExtension('WEBGL_compressed_texture_etc1');
-            } catch (e) {}
+            } catch (e) { }
             if (!gl) {
                 console.warn('Could not initialise WebGL');
             }
@@ -158,12 +158,12 @@ define([
          * Initializes WebGL 2 context
          * @param {HTMLElement} canvas - canvas to initialize WebGL
          */
-        BaseRenderer.prototype.initGL2 = function(canvas) {
+        BaseRenderer.prototype.initGL2 = function (canvas) {
             var gl = null;
 
             try {
-                gl = canvas.getContext('webgl2');
-            } catch (e) {}
+                gl = canvas.getContext('webgl2', { alpha: false });
+            } catch (e) { }
             this.isWebGL2 = !!gl;
 
             if (!this.isWebGL2) {
