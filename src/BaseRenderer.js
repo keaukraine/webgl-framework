@@ -185,6 +185,7 @@ define([
             window.gl = !!requestWebGL2 ? this.initGL2(this.canvas) : this.initGL(this.canvas);
 
             if (window.gl) {
+                this.resizeCanvas();
                 this.onAfterInit();
                 this.initShaders();
                 this.loadData();

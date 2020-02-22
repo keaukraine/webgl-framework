@@ -12,8 +12,6 @@ define(() => {
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
 
-        const stride = texWidth * (bUseAlpha ? 4 : 3);
-        const dataArray = new Uint8Array(stride * texHeight);
         let glFormat = null, glInternalFormat = null;
 
         if (bUseAlpha) {
@@ -24,7 +22,7 @@ define(() => {
             glInternalFormat = gl.RGB;
         }
 
-        gl.texImage2D(gl.TEXTURE_2D, 0, glInternalFormat, texWidth, texHeight, 0, glFormat, gl.UNSIGNED_BYTE, dataArray);
+        gl.texImage2D(gl.TEXTURE_2D, 0, glInternalFormat, texWidth, texHeight, 0, glFormat, gl.UNSIGNED_BYTE, null);
 
         return textureID;
     };
@@ -38,11 +36,8 @@ define(() => {
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
 
-        // const glFormat = gl.DEPTH_COMPONENT;
-        // const glInternalFormat = gl.DEPTH_COMPONENT;
-
         const glFormat = gl.DEPTH_COMPONENT;
-        const glInternalFormat = gl.DEPTH_COMPONENT16;
+        const glInternalFormat = gl.DEPTH_COMPONENT;
         const type = gl.UNSIGNED_SHORT;
 
         // In WebGL, we cannot pass array to depth texture.
