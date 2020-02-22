@@ -2,7 +2,6 @@
 
 ## Used Libraries
 
-* RequireJS, Released under the  MIT license https://github.com/requirejs/requirejs/blob/master/LICENSE
 * gl-matrix, a high performance matrix and vector operations by Brandon Jones and Colin MacKenzie IV
 * WebGL initialization code is based on http://learningwebgl.com/ tutorials
 
@@ -10,7 +9,7 @@
 
 **The MIT License**
 
-Copyright (c) 2016-2017 Oleksandr Popov, Dmytro Popov
+Copyright (c) 2016-2020 Oleksandr Popov, Dmytro Popov
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
