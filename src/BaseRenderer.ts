@@ -1,11 +1,12 @@
-import * as MatrixUtils from "gl-matrix";
+import { mat4 } from "gl-matrix-ts";
+import { mat4type } from "gl-matrix-ts/dist/common";
 
 export abstract class BaseRenderer {
-    protected mMMatrix = MatrixUtils.mat4.create();
-    protected mVMatrix = MatrixUtils.mat4.create();
-    protected mMVPMatrix = MatrixUtils.mat4.create();
-    protected mProjMatrix = MatrixUtils.mat4.create();
-    protected matOrtho = MatrixUtils.mat4.create();
+    protected mMMatrix = mat4.create();
+    protected mVMatrix = mat4.create();
+    protected mMVPMatrix = mat4.create();
+    protected mProjMatrix = mat4.create();
+    protected matOrtho = mat4.create();
 
     private m_boundTick = this.tick.bind(this);
 
@@ -70,25 +71,25 @@ export abstract class BaseRenderer {
      * @param zNear Near clipping plane distance
      * @param zFar Far clipping plane distance
      */
-    setFOV(matrix: MatrixUtils.mat4, fovY: number, aspect: number, zNear: number, zFar: number): void {
+    setFOV(matrix: mat4type, fovY: number, aspect: number, zNear: number, zFar: number): void {
         const fH = Math.tan(fovY / 360.0 * Math.PI) * zNear;
         const fW = fH * aspect;
-        MatrixUtils.mat4.frustum(matrix, -fW, fW, -fH, fH, zNear, zFar);
+        mat4.frustum(matrix, -fW, fW, -fH, fH, zNear, zFar);
     }
 
     /**
      * Calculates MVP matrix. Saved in this.mMVPMatrix
      */
     calculateMVPMatrix(tx: number, ty: number, tz: number, rx: number, ry: number, rz: number, sx: number, sy: number, sz: number) {
-        MatrixUtils.mat4.identity(this.mMMatrix);
-        MatrixUtils.mat4.rotate(this.mMMatrix, this.mMMatrix, 0, [1, 0, 0]);
-        MatrixUtils.mat4.translate(this.mMMatrix, this.mMMatrix, [tx, ty, tz]);
-        MatrixUtils.mat4.scale(this.mMMatrix, this.mMMatrix, [sx, sy, sz]);
-        MatrixUtils.mat4.rotateX(this.mMMatrix, this.mMMatrix, rx);
-        MatrixUtils.mat4.rotateY(this.mMMatrix, this.mMMatrix, ry);
-        MatrixUtils.mat4.rotateZ(this.mMMatrix, this.mMMatrix, rz);
-        MatrixUtils.mat4.multiply(this.mMVPMatrix, this.mVMatrix, this.mMMatrix);
-        MatrixUtils.mat4.multiply(this.mMVPMatrix, this.mProjMatrix, this.mMVPMatrix);
+        mat4.identity(this.mMMatrix);
+        mat4.rotate(this.mMMatrix, this.mMMatrix, 0, [1, 0, 0]);
+        mat4.translate(this.mMMatrix, this.mMMatrix, [tx, ty, tz]);
+        mat4.scale(this.mMMatrix, this.mMMatrix, [sx, sy, sz]);
+        mat4.rotateX(this.mMMatrix, this.mMMatrix, rx);
+        mat4.rotateY(this.mMMatrix, this.mMMatrix, ry);
+        mat4.rotateZ(this.mMMatrix, this.mMMatrix, rz);
+        mat4.multiply(this.mMVPMatrix, this.mVMatrix, this.mMMatrix);
+        mat4.multiply(this.mMVPMatrix, this.mProjMatrix, this.mMVPMatrix);
     }
 
     /** Called before WebGL initialization. */
