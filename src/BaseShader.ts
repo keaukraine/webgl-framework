@@ -1,14 +1,14 @@
 export abstract class BaseShader {
-  protected vertexShaderCode = ''
-  protected fragmentShaderCode = ''
-  protected program: WebGLProgram | undefined
+  protected vertexShaderCode = "";
+  protected fragmentShaderCode = "";
+  protected program: WebGLProgram | undefined;
 
   /**
    * Constructor. Compiles shader.
    */
   constructor(protected gl: WebGLRenderingContext) {
-    this.fillCode()
-    this.initShader()
+    this.fillCode();
+    this.initShader();
   }
 
   /**
@@ -24,22 +24,22 @@ export abstract class BaseShader {
    * @returns Shader or `undefined` if there were errors during shader compilation.
    */
   private getShader(type: GLenum, code: string): WebGLShader | undefined {
-    const shader = this.gl.createShader(type)
+    const shader = this.gl.createShader(type);
 
     if (!shader) {
-      console.warn('Error creating shader.')
-      return undefined
+      console.warn('Error creating shader.');
+      return undefined;
     }
 
-    this.gl.shaderSource(shader, code)
-    this.gl.compileShader(shader)
+    this.gl.shaderSource(shader, code);
+    this.gl.compileShader(shader);
 
     if (!this.gl.getShaderParameter(shader, this.gl.COMPILE_STATUS)) {
-      console.warn(this.gl.getShaderInfoLog(shader))
-      return undefined
+      console.warn(this.gl.getShaderInfoLog(shader));
+      return undefined;
     }
 
-    return shader
+    return shader;
   }
 
   /**
@@ -55,13 +55,13 @@ export abstract class BaseShader {
    */
   getUniform(uniform: string): WebGLUniformLocation {
     if (this.program === undefined) {
-      throw new Error('No program for shader.')
+      throw new Error('No program for shader.');
     }
-    const result = this.gl.getUniformLocation(this.program, uniform)
+    const result = this.gl.getUniformLocation(this.program, uniform);
     if (result !== null) {
-      return result
+      return result;
     } else {
-      throw new Error(`Cannot get uniform "${uniform}".`)
+      throw new Error(`Cannot get uniform "${uniform}".`);
     }
   }
 
@@ -73,37 +73,37 @@ export abstract class BaseShader {
    */
   getAttrib(attrib: string): number {
     if (this.program === undefined) {
-      throw new Error('No program for shader.')
+      throw new Error("No program for shader.");
     }
-    return this.gl.getAttribLocation(this.program, attrib)
+    return this.gl.getAttribLocation(this.program, attrib);
   }
 
   /**
    * Initializes shader.
    */
   private initShader(): void {
-    const fragmentShader = this.getShader(this.gl.FRAGMENT_SHADER, this.fragmentShaderCode)
-    const vertexShader = this.getShader(this.gl.VERTEX_SHADER, this.vertexShaderCode)
-    const shaderProgram = this.gl.createProgram()
+    const fragmentShader = this.getShader(this.gl.FRAGMENT_SHADER, this.fragmentShaderCode);
+    const vertexShader = this.getShader(this.gl.VERTEX_SHADER, this.vertexShaderCode);
+    const shaderProgram = this.gl.createProgram();
 
     if (fragmentShader === undefined || vertexShader === undefined || shaderProgram === null) {
-      return
+      return;
     }
 
-    this.gl.attachShader(shaderProgram, vertexShader)
-    this.gl.attachShader(shaderProgram, fragmentShader)
-    this.gl.linkProgram(shaderProgram)
+    this.gl.attachShader(shaderProgram, vertexShader);
+    this.gl.attachShader(shaderProgram, fragmentShader);
+    this.gl.linkProgram(shaderProgram);
 
     if (!this.gl.getProgramParameter(shaderProgram, this.gl.LINK_STATUS)) {
-      console.warn(this.constructor.name + ': Could not initialise shader')
+      console.warn(this.constructor.name + ": Could not initialise shader");
     } else {
-      console.log(this.constructor.name + ': Initialised shader')
+      console.log(this.constructor.name + ": Initialised shader");
     }
 
-    this.gl.useProgram(shaderProgram)
-    this.program = shaderProgram
+    this.gl.useProgram(shaderProgram);
+    this.program = shaderProgram;
 
-    this.fillUniformsAttributes()
+    this.fillUniformsAttributes();
   }
 
   /**
@@ -111,7 +111,7 @@ export abstract class BaseShader {
    */
   use(): void {
     if (this.program) {
-      this.gl.useProgram(this.program)
+      this.gl.useProgram(this.program);
     }
   }
 
@@ -120,7 +120,7 @@ export abstract class BaseShader {
    */
   deleteProgram(): void {
     if (this.program) {
-      this.gl.deleteProgram(this.program)
+      this.gl.deleteProgram(this.program);
     }
   }
 }
