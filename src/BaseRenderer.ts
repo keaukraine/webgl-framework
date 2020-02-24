@@ -1,7 +1,8 @@
 import { mat4 } from "gl-matrix-ts";
 import { mat4type } from "gl-matrix-ts/dist/common";
+import { RendererWithExposedMethods } from "./RendererWithExposedMethods";
 
-export abstract class BaseRenderer {
+export abstract class BaseRenderer implements RendererWithExposedMethods {
     protected mMMatrix = mat4.create();
     protected mVMatrix = mat4.create();
     protected mMVPMatrix = mat4.create();
@@ -21,7 +22,7 @@ export abstract class BaseRenderer {
     constructor() { }
 
     /** Getter for current WebGL context. */
-    protected get gl(): WebGLRenderingContext | WebGL2RenderingContext {
+    get gl(): WebGLRenderingContext | WebGL2RenderingContext {
         if (this.m_gl === undefined) {
             throw new Error("No WebGL context");
         }
@@ -43,7 +44,7 @@ export abstract class BaseRenderer {
      * @param texture A texture to be used
      * @param uniform Shader's uniform ID
      */
-    protected setTexture2D(textureUnit: number, texture: WebGLTexture, uniform: WebGLUniformLocation): void {
+    setTexture2D(textureUnit: number, texture: WebGLTexture, uniform: WebGLUniformLocation): void {
         this.gl.activeTexture(this.gl.TEXTURE0 + textureUnit);
         this.gl.bindTexture(this.gl.TEXTURE_2D, texture);
         this.gl.uniform1i(uniform, textureUnit);
@@ -56,7 +57,7 @@ export abstract class BaseRenderer {
      * @param texture A texture to be used
      * @param uniform Shader's uniform ID
      */
-    protected setTextureCubemap(textureUnit: number, texture: WebGLTexture, uniform: WebGLUniformLocation): void {
+    setTextureCubemap(textureUnit: number, texture: WebGLTexture, uniform: WebGLUniformLocation): void {
         this.gl.activeTexture(this.gl.TEXTURE0 + textureUnit);
         this.gl.bindTexture(this.gl.TEXTURE_CUBE_MAP, texture);
         this.gl.uniform1i(uniform, textureUnit);
@@ -207,10 +208,36 @@ export abstract class BaseRenderer {
      *
      * @param operation Operation name.
      */
-    protected checkGlError(operation: string): void {
+    checkGlError(operation: string): void {
         let error;
         while ((error = this.gl.getError()) !== this.gl.NO_ERROR) {
             console.error(`${operation}: glError ${error}`);
         }
+    }
+
+    /** @inheritdoc */
+    unbindBuffers(): void {
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, null);
+        this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, null);
+    }
+
+    /** @inheritdoc */
+    getMVPMatrix(): Float32Array {
+        return this.mMVPMatrix;
+    }
+
+    /** @inheritdoc */
+    getOrthoMatrix(): Float32Array {
+        return this.matOrtho;
+    }
+
+    /** @inheritdoc */
+    getModelMatrix(): Float32Array {
+        return this.mMMatrix;
+    }
+
+    /** @inheritdoc */
+    getViewMatrix(): Float32Array {
+        return this.mVMatrix;
     }
 }
