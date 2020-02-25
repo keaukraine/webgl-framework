@@ -6,3 +6,5 @@ export { UncompressedTextureLoader } from "./UncompressedTextureLoader";
 export { FullModel } from "./FullModel";
 export { BaseShader } from "./BaseShader";
 export { BaseRenderer } from "./BaseRenderer";
+
+export { DiffuseShader } from "./shaders/DiffuseShader";
