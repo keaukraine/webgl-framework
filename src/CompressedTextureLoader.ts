@@ -6,7 +6,16 @@ const PKM_HEADER_HEIGHT_OFFSET = 10; // offset to texture height
 const ETC1_RGB8_OES = 36196;
 
 export class CompressedTextureLoader {
-    static async loadETC1(url: string, gl: WebGLRenderingContext): Promise<WebGLTexture | null> {
+    /**
+     * Loads ETC1 texture in PKM container.
+     *
+     * @param url URL to texture PKM file.
+     * @param gl WebGL context.
+     */
+    static async loadETC1(
+        url: string,
+        gl: WebGLRenderingContext | WebGL2RenderingContext
+    ): Promise<WebGLTexture | null> {
         const texture = gl.createTexture();
         const data = await BinaryDataLoader.load(url);
 
