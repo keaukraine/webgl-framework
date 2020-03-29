@@ -81,5 +81,5 @@ export interface RendererWithExposedMethods {
     getViewMatrix(): Float32Array;
 
     /** Getter for current WebGL context. */
-    gl: WebGLRenderingContext;
+    gl: WebGLRenderingContext | WebGL2RenderingContext;
 }
