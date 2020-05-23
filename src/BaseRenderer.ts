@@ -1,5 +1,4 @@
-import { mat4 } from "gl-matrix-ts";
-import { mat4type } from "gl-matrix-ts/dist/common";
+import { mat4 } from "gl-matrix";
 import { RendererWithExposedMethods } from "./RendererWithExposedMethods";
 
 export abstract class BaseRenderer implements RendererWithExposedMethods {
@@ -72,7 +71,7 @@ export abstract class BaseRenderer implements RendererWithExposedMethods {
      * @param zNear Near clipping plane distance
      * @param zFar Far clipping plane distance
      */
-    setFOV(matrix: mat4type, fovY: number, aspect: number, zNear: number, zFar: number): void {
+    setFOV(matrix: mat4, fovY: number, aspect: number, zNear: number, zFar: number): void {
         const fH = Math.tan(fovY / 360.0 * Math.PI) * zNear;
         const fW = fH * aspect;
         mat4.frustum(matrix, -fW, fW, -fH, fH, zNear, zFar);
@@ -222,22 +221,22 @@ export abstract class BaseRenderer implements RendererWithExposedMethods {
     }
 
     /** @inheritdoc */
-    getMVPMatrix(): Float32Array {
+    getMVPMatrix(): mat4 {
         return this.mMVPMatrix;
     }
 
     /** @inheritdoc */
-    getOrthoMatrix(): Float32Array {
+    getOrthoMatrix(): mat4 {
         return this.matOrtho;
     }
 
     /** @inheritdoc */
-    getModelMatrix(): Float32Array {
+    getModelMatrix(): mat4 {
         return this.mMMatrix;
     }
 
     /** @inheritdoc */
-    getViewMatrix(): Float32Array {
+    getViewMatrix(): mat4 {
         return this.mVMatrix;
     }
 }

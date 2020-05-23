@@ -1,3 +1,5 @@
+import { mat4 } from "gl-matrix";
+
 /**
  * Renderer which exposes certain methods to set WebGL state and update matrices.
  */
@@ -35,14 +37,14 @@ export interface RendererWithExposedMethods {
      *
      * @return MVP matrix.
      */
-    getMVPMatrix(): Float32Array;
+    getMVPMatrix(): mat4;
 
     /**
      * Returns orthographic matrix to render to off-screen targets.
      *
      * @return Orthographic matrix.
      */
-    getOrthoMatrix(): Float32Array;
+    getOrthoMatrix(): mat4;
 
     /**
      * Checks for OpenGL ES errors.
@@ -71,14 +73,14 @@ export interface RendererWithExposedMethods {
      *
      * @return Model matrix.
      */
-    getModelMatrix(): Float32Array;
+    getModelMatrix(): mat4;
 
     /**
      * Get view matrix.
      *
      * @return View matrix.
      */
-    getViewMatrix(): Float32Array;
+    getViewMatrix(): mat4;
 
     /** Getter for current WebGL context. */
     gl: WebGLRenderingContext | WebGL2RenderingContext;
