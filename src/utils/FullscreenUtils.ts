@@ -2,7 +2,7 @@ export class FullScreenUtils {
     /** Enters fullscreen. */
     enterFullScreen(): void {
         if (!document.fullscreenElement) {
-            document.documentElement.requestFullscreen();
+            document.documentElement.requestFullscreen({ navigationUI: "hide" });
         }
     }
 
@@ -19,7 +19,7 @@ export class FullScreenUtils {
      * @param exitHandler Function to be called on fullscreenchange event
      */
     addFullScreenListener(exitHandler: () => any): void {
-        document.addEventListener('fullscreenchange', exitHandler, false);
+        document.addEventListener("fullscreenchange", exitHandler, false);
     }
 
     /**
