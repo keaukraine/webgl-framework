@@ -1,6 +1,6 @@
 {
   "name": "webgl-framework",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Basic low-level WebGL framework",
   "author": "Oleksandr Popov (github.com/keaukraine/)",
   "keywords": [
