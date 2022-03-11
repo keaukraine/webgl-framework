@@ -30,8 +30,11 @@ export class FullModel {
    * @returns Promise which resolves when model is loaded.
    */
   async load(url: string, gl: WebGLRenderingContext): Promise<void> {
-    const dataIndices = await BinaryDataLoader.load(url + "-indices.bin");
-    const dataStrides = await BinaryDataLoader.load(url + "-strides.bin");
+    const [dataIndices, dataStrides] = await Promise.all([
+      BinaryDataLoader.load(`${url}-indices.bin`),
+      BinaryDataLoader.load(`${url}-strides.bin`)
+    ]);
+
     console.log(`Loaded ${url}-indices.bin (${dataIndices.byteLength} bytes)`);
     console.log(`Loaded ${url}-strides.bin (${dataStrides.byteLength} bytes)`);
 
