@@ -156,6 +156,20 @@ export abstract class BaseRenderer implements RendererWithExposedMethods {
     };
 
     /**
+     * Generates mipmasp for textures.
+     * 
+     * @param textures Textures to generate mipmaps for. 
+     */
+    protected generateMipmaps(...textures: WebGLTexture[]): void {
+        for (const texture of textures) {
+            this.gl.bindTexture(this.gl.TEXTURE_2D, texture);
+            this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MAG_FILTER, this.gl.LINEAR);
+            this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MIN_FILTER, this.gl.LINEAR_MIPMAP_LINEAR);
+            this.gl.generateMipmap(this.gl.TEXTURE_2D);
+        }
+    }
+
+    /**
      * Initializes WebGL and calls all callbacks.
      *
      * @param canvasID ID of canvas element to initialize WebGL.
