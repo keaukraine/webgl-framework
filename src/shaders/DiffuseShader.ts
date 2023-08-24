@@ -1,8 +1,11 @@
 import { BaseShader } from "../BaseShader";
-import { DrawableShader } from "../DrawableShader";
+import { AttributeDescriptor, DrawableShader } from "../DrawableShader";
 import { RendererWithExposedMethods } from "../RendererWithExposedMethods";
 import { FullModel } from "../FullModel";
 
+/**
+ * Simple shader using one texture.
+ */
 export class DiffuseShader extends BaseShader implements DrawableShader {
     view_proj_matrix: WebGLUniformLocation | undefined;
     sTexture: WebGLUniformLocation | undefined;
@@ -44,7 +47,8 @@ export class DiffuseShader extends BaseShader implements DrawableShader {
         model: FullModel,
         tx: number, ty: number, tz: number,
         rx: number, ry: number, rz: number,
-        sx: number, sy: number, sz: number
+        sx: number, sy: number, sz: number,
+        attribs?: Map<number, AttributeDescriptor>
     ): void {
         if (this.rm_Vertex === undefined || this.rm_TexCoord0 === undefined || this.view_proj_matrix === undefined) {
             return;
@@ -56,8 +60,15 @@ export class DiffuseShader extends BaseShader implements DrawableShader {
 
         gl.enableVertexAttribArray(this.rm_Vertex);
         gl.enableVertexAttribArray(this.rm_TexCoord0);
-        gl.vertexAttribPointer(this.rm_Vertex, 3, gl.FLOAT, false, 4 * (3 + 2), 0);
-        gl.vertexAttribPointer(this.rm_TexCoord0, 2, gl.FLOAT, false, 4 * (3 + 2), 4 * 3);
+
+        if (attribs) {
+            for (const [key, value] of attribs) {
+                gl.vertexAttribPointer(key, ...value);
+            }
+        } else {
+            gl.vertexAttribPointer(this.rm_Vertex, 3, gl.FLOAT, false, 4 * (3 + 2), 0);
+            gl.vertexAttribPointer(this.rm_TexCoord0, 2, gl.FLOAT, false, 4 * (3 + 2), 4 * 3);
+        }
 
         renderer.calculateMVPMatrix(tx, ty, tz, rx, ry, rz, sx, sy, sz);
 

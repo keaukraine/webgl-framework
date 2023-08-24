@@ -2,8 +2,8 @@ export class UncompressedTextureLoader {
     static load(
         url: string,
         gl: WebGLRenderingContext,
-        minFilter = gl.LINEAR,
-        magFilter = gl.LINEAR,
+        minFilter: number = gl.LINEAR,
+        magFilter: number = gl.LINEAR,
         clamp = false
     ): Promise<WebGLTexture> {
         return new Promise((resolve, reject) => {

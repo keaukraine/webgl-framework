@@ -1,6 +1,11 @@
 import { FullModel } from "./FullModel";
 import { RendererWithExposedMethods } from "./RendererWithExposedMethods";
 
+/**
+ * Descriptor of a vertex attribute.
+ */
+export type AttributeDescriptor = [size: GLint, type: GLenum, normalized: GLboolean, stride: GLsizei, offset: GLintptr];
+
 export interface DrawableShader {
     /**
      * Draws model using this shader. Binds draw buffers.
@@ -16,12 +21,14 @@ export interface DrawableShader {
      * @param sx       Scale x
      * @param sy       Scale y
      * @param sz       Scale z
+     * @param attribs  Vertex data attribute bindings. Key - attribute id, value - descriptor params.
      */
     drawModel(
         renderer: RendererWithExposedMethods,
         model: FullModel,
         tx: number, ty: number, tz: number,
         rx: number, ry: number, rz: number,
-        sx: number, sy: number, sz: number
+        sx: number, sy: number, sz: number,
+        attribs?: Map<number, AttributeDescriptor>
     ): void;
 }
