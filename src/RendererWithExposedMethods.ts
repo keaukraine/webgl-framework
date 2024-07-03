@@ -82,6 +82,13 @@ export interface RendererWithExposedMethods {
      */
     getViewMatrix(): mat4;
 
+    /**
+     * Get projection matrix.
+     *
+     * @return Projection matrix.
+     */
+    getProjectionMatrix(): mat4;
+
     /** Getter for current WebGL context. */
     gl: WebGLRenderingContext | WebGL2RenderingContext;
 }

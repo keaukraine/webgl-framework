@@ -157,8 +157,8 @@ export abstract class BaseRenderer implements RendererWithExposedMethods {
 
     /**
      * Generates mipmasp for textures.
-     * 
-     * @param textures Textures to generate mipmaps for. 
+     *
+     * @param textures Textures to generate mipmaps for.
      */
     protected generateMipmaps(...textures: WebGLTexture[]): void {
         for (const texture of textures) {
@@ -252,5 +252,10 @@ export abstract class BaseRenderer implements RendererWithExposedMethods {
     /** @inheritdoc */
     getViewMatrix(): mat4 {
         return this.mVMatrix;
+    }
+
+    /** @inheritdoc */
+    getProjectionMatrix(): mat4 {
+        return this.mProjMatrix;
     }
 }
