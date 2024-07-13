@@ -25,7 +25,7 @@ export abstract class BaseShader {
      * @param code GLSL code.
      * @returns Shader or `undefined` if there were errors during shader compilation.
      */
-    private getShader(type: GLenum, code: string): WebGLShader | undefined {
+    protected getShader(type: GLenum, code: string): WebGLShader | undefined {
         const shader = this.gl.createShader(type);
 
         if (!shader) {
@@ -79,7 +79,7 @@ export abstract class BaseShader {
     }
 
     /** Initializes shader. */
-    private initShader(): void {
+    protected initShader(): void {
         const fragmentShader = this.getShader(this.gl.FRAGMENT_SHADER, this.fragmentShaderCode);
         const vertexShader = this.getShader(this.gl.VERTEX_SHADER, this.vertexShaderCode);
         const shaderProgram = this.gl.createProgram();
