@@ -13,7 +13,7 @@ export class MsaaFrameBuffer {
     constructor(private gl: WebGL2RenderingContext) { }
 
     /** Creates OpenGL objects */
-    createGLData(width: number, height: number) {
+    createGLData(width: number, height: number, useAlpha: boolean) {
         this.m_width = width;
         this.m_height = height;
 
@@ -62,7 +62,13 @@ export class MsaaFrameBuffer {
 
             this.m_colorBufferHandle = this.gl.createRenderbuffer();
             this.gl.bindRenderbuffer(this.gl.RENDERBUFFER, this.m_colorBufferHandle);
-            this.gl.renderbufferStorageMultisample(this.gl.RENDERBUFFER, 4, this.gl.RGB8, this.m_width, this.m_height);
+            this.gl.renderbufferStorageMultisample(
+                this.gl.RENDERBUFFER,
+                4,
+                useAlpha ? this.gl.RGBA8 : this.gl.RGB8,
+                this.m_width,
+                this.m_height
+            );
             this.gl.framebufferRenderbuffer(this.gl.FRAMEBUFFER, this.gl.COLOR_ATTACHMENT0, this.gl.RENDERBUFFER, this.m_colorBufferHandle);
 
             this.gl.bindRenderbuffer(this.gl.RENDERBUFFER, this.m_depthBufferMsaaHandle);
